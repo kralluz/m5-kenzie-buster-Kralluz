@@ -1,77 +1,80 @@
 # M5 - Kenzie Buster
 
-## Instalação dos pacotes de teste
+## Preparando ambiente para execução dos testes
 
-- Verifique se os pacotes `pytest` e/ou `pytest-testdox` estão instalados globalmente em seu sistema:
+1. Verifique se os pacotes **pytest**, **pytest-testdox** e/ou **pytest-django** estão instalados globalmente em seu sistema:
 ```shell
 pip list
 ```
-- Caso seja listado o `pytest` e/ou `pytest-testdox` e/ou `pytest-django` em seu ambiente global, utilize os seguintes comando para desinstalá-los globalmente:
-```shell
-pip uninstall pytest
-```
+
+2. Caso eles apareçam na listagem, rode os comandos abaixo para realizar a desinstalação:
 
 ```shell
-pip uninstall pytest-testdox
+pip uninstall pytest pytest-testdox pytest-django -y
 ```
 
+3. Após isso, crie seu ambiente virtual:
 ```shell
-pip uninstall pytest-django
-```
-
-A partir disso, prossiga com os passos:
-
-1. Crie seu ambiente virtual:
-```bash
 python -m venv venv
 ```
 
-2. Ative seu venv:
-```bash
-# LINUX:
+4. Ative seu ambiente virtual:
+
+```shell
+# Linux e Mac:
 source venv/bin/activate
 
-# WINDOWS:
+# Windows (PowerShell):
 .\venv\Scripts\activate
 
-# GIT BASH:
+# Windows (GitBash):
 source venv/Scripts/activate
 ```
 
-3. Instale o pacote `pytest-testdox`:
+5. Instale as bibliotecas necessárias:
+
 ```shell
 pip install pytest-testdox pytest-django
 ```
 
-5. Vá até o arquivo `pytest.ini` e modifique o nome do projeto `my_project_name.settings` para o nome do **seu_projeto**.settings (onde se encontra o settings.py)
-
-4. Agora é só rodar os testes no diretório principal do projeto:
-```shell
-pytest --testdox -vvs
-```
+## Execução dos testes:
 
 
-
-## Rodando os testes de cada tarefa isoladamente
-
-Ao fim de cada tarefa será possível executar uma suite de testes direcionada àquela tarefa específica. Lembre-se de sempre estar com o **virtual enviroment (venv) ativado**.
-
-- Rodando testes da Tarefa 1:
+- Tarefa 1:
 ```python
 pytest --testdox -vvs tests/tarefas/t1/
 ```
 
-- Rodando testes da Tarefa 2:
+- Tarefa 2:
 ```python
 pytest --testdox -vvs tests/tarefas/t2/
 ```
 
-- Rodando testes da Tarefa 3:
+- Tarefa 3:
 ```python
 pytest --testdox -vvs tests/tarefas/t3/
 ```
 
-- Rodando testes da Tarefa 4:
+- Tarefa 4:
 ```python
 pytest --testdox -vvs tests/tarefas/t4/
+```
+---
+
+Você também pode rodar cada método de teste isoladamente:
+
+```shell
+pytest --testdox -vvs caminho/para/o/arquivo/de/teste::NomeDaClasse::nome_do_metodo_de_teste
+```
+
+**Exemplo**: executar somente "test_user_login_without_required_fields".
+
+```shell
+pytest --testdox -vvs tests/tarefas/t2/users/t2_user_views_test.py::UserLoginViewsT2Test::test_user_login_without_required_fields
+```
+--- 
+
+Para executar todos os testes:
+```shell
+pytest --testdox -vvs
 ```
