@@ -19,9 +19,13 @@ class MovieModelTest(TestCase):
         msg = f"Verifique se a propriedade `max_length` de `duration` foi definida como `{expected}`"
         self.assertEqual(expected, result, msg)
 
+        result = Movie._meta.get_field("duration").blank
+        msg = f"Verifique se o atributo `duration` permite strings vazias."
+        self.assertTrue(result, msg)
+
         result = Movie._meta.get_field("duration").default
-        msg = f"Verifique se o atributo `duration` foi definido com o valor padrão None"
-        self.assertIsNone(result, msg)
+        msg = f"Verifique se o atributo `duration` foi definido com o valor padrão de string vazia"
+        self.assertIsInstance(result, str, msg)
 
     def test_rating_properties(self):
         expected = 20
@@ -39,5 +43,9 @@ class MovieModelTest(TestCase):
 
     def test_synopsis_properties(self):
         result = Movie._meta.get_field("synopsis").default
-        msg = f"Verifique se o atributo `synopsis` foi definido com o valor padrão None"
-        self.assertIsNone(result, msg)
+        msg = f"Verifique se o atributo `synopsis` foi definido com o valor padrão de string vazia"
+        self.assertIsInstance(result, str, msg)
+
+        result = Movie._meta.get_field("synopsis").blank
+        msg = f"Verifique se o atributo `synopsis` permite strings vazias."
+        self.assertTrue(result, msg)

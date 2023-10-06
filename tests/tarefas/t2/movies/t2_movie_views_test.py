@@ -55,7 +55,7 @@ class MovieViewsT2Test(APITestCase):
                 "id": 1,
                 "added_by": f"{employee.email}",
                 "rating": "G",
-                "synopsis": None,
+                "synopsis": "",
             },
         }
         resulted_data = response.json()
@@ -113,7 +113,7 @@ class MovieViewsT2Test(APITestCase):
         }
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + employee_token)
         response = self.client.post(self.BASE_URL, data=movie_data, format="json")
-        
+
         # STATUS CODE
         expected_status_code = status.HTTP_201_CREATED
         resulted_status_code = response.status_code
@@ -131,7 +131,7 @@ class MovieViewsT2Test(APITestCase):
                 "id": 1,
                 "added_by": f"{employee.email}",
                 "rating": "G",
-                "synopsis": None,
+                "synopsis": "",
             },
         }
         resulted_data = response.json()
@@ -212,7 +212,6 @@ class MovieViewsT2Test(APITestCase):
         self.assertTrue(Movie.objects.exists(), msg)
 
     def test_movie_deletion_without_token(self):
-
         response = self.client.delete(self.BASE_DETAIL_URL)
 
         # STATUS CODE

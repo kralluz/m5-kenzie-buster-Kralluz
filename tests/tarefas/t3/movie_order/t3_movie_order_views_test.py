@@ -82,9 +82,9 @@ class MovieOrderViewsT3Test(APITestCase):
             **{
                 "id": 1,
                 "title": self.movie.title,
-                "buyed_by": f"{non_employee.email}",
+                "purchased_by": f"{non_employee.email}",
                 "price": "100.00",
-                "buyed_at": mock_now.return_value,
+                "purchased_at": mock_now.return_value,
             },
         }
         resulted_data = response.json()
@@ -128,9 +128,9 @@ class MovieOrderViewsT3Test(APITestCase):
             **{
                 "id": 1,
                 "title": self.movie.title,
-                "buyed_by": f"{employee.email}",
+                "purchased_by": f"{employee.email}",
                 "price": "100.00",
-                "buyed_at": mock_now.return_value,
+                "purchased_at": mock_now.return_value,
             },
         }
         resulted_data = response.json()

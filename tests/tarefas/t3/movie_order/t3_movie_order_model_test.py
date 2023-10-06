@@ -1,11 +1,13 @@
 from django.test import TestCase
-from movies.models import MovieOrder
+from movies_orders.models import MovieOrder
 
 
 class MovieOrderModelTest(TestCase):
-    def test_buyed_at_properties(self):
-        result = MovieOrder._meta.get_field("buyed_at").auto_now_add
-        msg = f"Verifique se a propriedade `auto_now_add` de `buyed_at` foi definida"
+    def test_purchased_at_properties(self):
+        result = MovieOrder._meta.get_field("purchased_at").auto_now_add
+        msg = (
+            f"Verifique se a propriedade `auto_now_add` de `purchased_at` foi definida"
+        )
         self.assertTrue(result, msg)
 
     def test_price_properties(self):
