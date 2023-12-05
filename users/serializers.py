@@ -1,5 +1,14 @@
-from rest_framework import (serializers, )
+from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from users.models import User
+
+
+class CustomJWTSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token["is_superuser"] = user.is_superuser
+        return token
 
 
 class UserSerializer(serializers.Serializer):
@@ -15,20 +24,27 @@ class UserSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         errors = {}
-        if User.objects.filter(email=validated_data.get('email')).exists():
-            errors['email'] = ["email already registered."]
-        if User.objects.filter(username=validated_data.get('username')).exists():
-            errors['username'] = ["username already taken."]
+        if User.objects.filter(email=validated_data.get("email")).exists():
+            errors["email"] = ["email already registered."]
+        if User.objects.filter(username=validated_data.get("username")).exists():
+            errors["username"] = ["username already taken."]
         if errors:
             raise serializers.ValidationError(errors)
-        user = User(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            first_name=validated_data.get('first_name', ''),
-            last_name=validated_data.get('last_name', ''),
-            birthdate=validated_data.get('birthdate'),
-            is_employee=validated_data.get('is_employee', False),
-        )
-        user.set_password(validated_data['password'])
-        user.save()
+        is_employee = validated_data.get("is_employee", False)
+        if is_employee:
+            user = User.objects.create_superuser(
+                username=validated_data["username"],
+                email=validated_data["email"],
+                password=validated_data["password"],
+            )
+        else:
+            user = User.objects.create_user(
+                username=validated_data["username"],
+                email=validated_data["email"],
+                first_name=validated_data.get("first_name", ""),
+                last_name=validated_data.get("last_name", ""),
+                birthdate=validated_data.get("birthdate"),
+            )
+            user.set_password(validated_data["password"])
+            user.save()
         return user

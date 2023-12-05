@@ -160,7 +160,7 @@ class MovieViewsT2Test(APITestCase):
 
         # RETORNO JSON
         resulted_data: dict = response.json()
-        expected_fields = {"title", "rating"}
+        expected_fields = {"rating", "title"}
         returned_fields = set(resulted_data.keys())
         msg = "Verifique se todas as chaves obrigatórias são retornadas ao tentar criar um filme sem os campos obrigatórios"
         self.assertSetEqual(expected_fields, returned_fields, msg)
