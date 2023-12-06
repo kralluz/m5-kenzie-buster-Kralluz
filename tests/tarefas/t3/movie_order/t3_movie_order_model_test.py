@@ -13,6 +13,7 @@ class MovieOrderModelTest(TestCase):
     def test_price_properties(self):
         expected = 8
         result = MovieOrder._meta.get_field("price").max_digits
+
         msg = f"Verifique se a propriedade `max_digits` de `price` foi definida corretamente"
         self.assertEqual(expected, result, msg)
 

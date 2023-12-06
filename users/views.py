@@ -1,11 +1,10 @@
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
-from rest_framework.pagination import PageNumberPagination
 from users.serializers import UserSerializer
 
 
-class UserView(APIView, PageNumberPagination):
+class UserView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):

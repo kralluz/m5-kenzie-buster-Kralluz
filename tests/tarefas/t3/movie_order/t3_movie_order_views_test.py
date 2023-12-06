@@ -134,6 +134,8 @@ class MovieOrderViewsT3Test(APITestCase):
             },
         }
         resulted_data = response.json()
+        print("================================================")
+        print(resulted_data)
         msg = (
             "Verifique as informações da order retornadas no POST "
             + f"em `{self.BASE_URL}` estão corretas."
