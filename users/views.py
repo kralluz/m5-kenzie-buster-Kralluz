@@ -43,7 +43,10 @@ class UserView(APIView, PageNumberPagination):
         return Response(serializer.data, status=200)
 
     def delete(self, request, user_id):
-        ...
+        user = get_object_or_404(User, id=user_id)
+        self.check_object_permissions(request, user)
+        user.delete()
+        return Response(status=204)
 
 
 class LoginJWTView(TokenObtainPairView):
