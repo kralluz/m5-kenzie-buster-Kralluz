@@ -32,19 +32,28 @@ class UserSerializer(serializers.Serializer):
             raise serializers.ValidationError(errors)
         is_employee = validated_data.get("is_employee", False)
         if is_employee:
-            user = User.objects.create_superuser(
-                username=validated_data["username"],
-                email=validated_data["email"],
-                password=validated_data["password"],
-            )
+            user = User.objects.create_superuser(**validated_data)
         else:
-            user = User.objects.create_user(
-                username=validated_data["username"],
-                email=validated_data["email"],
-                first_name=validated_data.get("first_name", ""),
-                last_name=validated_data.get("last_name", ""),
-                birthdate=validated_data.get("birthdate"),
-            )
-            user.set_password(validated_data["password"])
-            user.save()
+            user = User.objects.create_user(**validated_data)
         return user
+
+    def update(self, instance, validated_data):
+        errors = {}
+        email = validated_data.get("email")
+        if email and User.objects.filter(email=email).exclude(id=instance.id).exists():
+            errors["email"] = ["Email already registered."]
+        username = validated_data.get("username")
+        if (
+            username
+            and User.objects.filter(username=username).exclude(id=instance.id).exists()
+        ):
+            errors["username"] = ["Username already taken."]
+        if errors:
+            raise serializers.ValidationError(errors)
+        password = validated_data.pop('password', None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance

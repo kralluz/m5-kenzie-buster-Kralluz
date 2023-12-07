@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import User
 
 
 class Rating(models.TextChoices):
@@ -23,7 +24,7 @@ class Movie(models.Model):
         )
     synopsis = models.TextField(blank=True, default="")
     user = models.ForeignKey(
-        "users.User",
+        User,
         on_delete=models.CASCADE,
         related_name="movies_added_by_user"
     )
