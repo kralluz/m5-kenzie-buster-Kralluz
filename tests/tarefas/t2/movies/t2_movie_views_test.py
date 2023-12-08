@@ -213,7 +213,6 @@ class MovieViewsT2Test(APITestCase):
 
     def test_movie_deletion_without_token(self):
         response = self.client.delete(self.BASE_DETAIL_URL)
-
         # STATUS CODE
         expected_status_code = status.HTTP_401_UNAUTHORIZED
         resulted_status_code = response.status_code

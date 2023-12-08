@@ -16,6 +16,8 @@ class MovieView(APIView, PageNumberPagination):
         serializer = MovieSerializer(
             data=request.data, context={'request': request}
             )
+        user = request.user
+        self.check_object_permissions(request, user)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=201)
@@ -45,5 +47,6 @@ class MovieView(APIView, PageNumberPagination):
 
     def delete(self, request, movie_id):
         movie = get_object_or_404(Movie, id=movie_id)
+        self.check_object_permissions(request, movie)
         movie.delete()
         return Response(status=204)

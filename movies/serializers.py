@@ -19,5 +19,3 @@ class MovieSerializer(serializers.Serializer):
         user = self.context["request"].user
         movie = Movie.objects.create(user=user, **validated_data)
         return movie
-
-
